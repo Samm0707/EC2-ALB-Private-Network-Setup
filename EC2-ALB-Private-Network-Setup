@@ -23,26 +23,26 @@ set -e # Exit immediately if a command exits with a non-zero status.
 # ==============================================================================
 
 # --- Configuration Variables ---
-# AWS Region where resources will be deployed (e.g., "us-east-1", "ap-south-1")
-AWS_REGION="ap-south-1"
+# AWS Region where resources will be deployed
+AWS_REGION="YOUR_AWS_REGION" 
 
 # The ID of the EXISTING VPC where all resources will be created.
 # This script builds *within* a VPC you specify.
-VPC_ID_TO_USE="vpc-02cc2a725bffc71f4" # <--- REPLACE WITH YOUR ACTUAL VPC ID!
+VPC_ID_TO_USE="YOUR_VPC_ID" 
 
-# EC2 Instance Type (e.g., "t3.small", "t2.micro")
-INSTANCE_TYPE="t3.small"
+# EC2 Instance Type
+INSTANCE_TYPE="YOUR_INSTANCE_TYPE" 
 
 # Name of an existing EC2 Key Pair in your AWS account.
 # Used for SSH access to the EC2 instance.
-KEY_PAIR_NAME="suiteCRM" # <--- REPLACE WITH YOUR ACTUAL KEY PAIR NAME!
+KEY_PAIR_NAME="YOUR_KEY_PAIR_NAME" 
 
-# The application port on the EC2 instance (e.g., 80 for HTTP, 443 for HTTPS)
-APP_PORT="80"
+# The application port on the EC2 instance
+APP_PORT="YOUR_APP_PORT" 
 
 # A unique prefix for all resources created by this script.
 # CHANGE THIS FOR EACH NEW DEPLOYMENT to avoid naming conflicts.
-RESOURCE_NAME_PREFIX="mywebapp-infra" # <--- CHANGE THIS FOR NEW DEPLOYMENTS!
+RESOURCE_NAME_PREFIX="YOUR_RESOURCE_PREFIX" 
 
 # --- Script Start ---
 echo "--- Starting infrastructure deployment in region $AWS_REGION for VPC $VPC_ID_TO_USE ---"
@@ -64,7 +64,7 @@ echo "Using Availability Zones: $AZ1 and $AZ2"
 # --- 1. Networking Setup (Subnets, Gateways, Routes) ---
 echo "--- [1/6] Setting up Networking... ---"
 
-# Create Public Subnets (using arbitrary but common CIDR blocks within 172.31.0.0/16 range for example)
+# Create Public Subnets
 PUBLIC_SUBNET_1_CIDR="172.31.60.0/24"
 PUBLIC_SUBNET_2_CIDR="172.31.61.0/24"
 PRIVATE_SUBNET_CIDR="172.31.62.0/24" # For the EC2 instance
@@ -230,18 +230,15 @@ echo "==========================================================================
 echo " SUCCESS! AWS Infrastructure deployment is complete."
 echo "=============================================================================="
 echo ""
-echo "Resources created with prefix: $RESOURCE_NAME_PREFIX"
+echo "Please make note of the following details for your deployment:"
+echo ""
 echo "VPC ID: $VPC_ID_TO_USE"
-echo "Public Subnet 1: $PUBLIC_SUBNET_1_ID"
-echo "Public Subnet 2: $PUBLIC_SUBNET_2_ID"
-echo "Private Subnet: $PRIVATE_SUBNET_ID"
-echo "EC2 Instance ID: $INSTANCE_ID"
 echo "ALB DNS Name: http://$ALB_DNS_NAME_FINAL"
 echo ""
 echo "NEXT STEPS:"
-echo "1. Verify you can access 'http://$ALB_DNS_NAME_FINAL' in your browser and see 'Hello from Private EC2 Instance!'"
+echo "1. Verify you can access 'http://$ALB_DNS_NAME_FINAL' in your browser and see 'Hello from Private EC2 Instance!'."
 echo "2. SSH into your EC2 instance (ID: $INSTANCE_ID) using your Key Pair '$KEY_PAIR_NAME'."
-echo "3. Run the SuiteCRM software deployment script (e.g., 'deploy_suitecrm.sh') on the EC2 instance."
+echo "3. Deploy your application on the EC2 instance."
 echo ""
 echo "Note: It may take a minute or two for the ALB health checks to pass."
 echo "=============================================================================="
